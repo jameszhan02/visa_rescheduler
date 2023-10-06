@@ -136,7 +136,7 @@ def get_date_new(url):
     print("check target index: " + str(targetIndex))
     if targetIndex != -1:
         body = driver.execute_cdp_cmd('Network.getResponseBody', {'requestId': events[targetIndex]["params"]["requestId"]})
-        print("Here is the body: " + str(body))
+        #print("Here is the body: " + str(body))
         available_date = json.loads(body["body"])
         
         return available_date
@@ -320,37 +320,6 @@ def reschedule(date):
 
 
 
-#--------------------old code--------------------
-    # data = {
-    #     "utf8": driver.find_element(by=By.NAME, value='utf8').get_attribute('value'),
-    #     "authenticity_token": driver.find_element(by=By.NAME, value='authenticity_token').get_attribute('value'),
-    #     "confirmed_limit_message": driver.find_element(by=By.NAME, value='confirmed_limit_message').get_attribute('value'),
-    #     "use_consulate_appointment_capacity": driver.find_element(by=By.NAME, value='use_consulate_appointment_capacity').get_attribute('value'),
-    #     "appointments[consulate_appointment][facility_id]": FACILITY_ID,
-    #     "appointments[consulate_appointment][date]": date,
-    #     "appointments[consulate_appointment][time]": time,
-    # }
-
-    # headers = {
-    #     "User-Agent": driver.execute_script("return navigator.userAgent;"),
-    #     "Referer": APPOINTMENT_URL,
-    #     "Cookie": "_yatri_session=" + driver.get_cookie("_yatri_session")["value"]
-    # }
-
-    # print("Rescheduling...")
-    # print(data)
-    # print(headers)
-
-    # r = requests.post(APPOINTMENT_URL, headers=headers, data=data)
-    # if(r.text.find('Successfully Scheduled') != -1):
-    #     msg = f"Rescheduled Successfully! {date} {time}"
-    #     send_notification(msg)
-    #     EXIT = True
-    # else:
-    #     msg = f"Reschedule Failed. {date} {time}"
-    #     send_notification(msg)
-#--------------------old code--------------------
-
 def is_logged_in():
     content = driver.page_source
     if(content.find("error") != -1):
@@ -408,10 +377,7 @@ if __name__ == "__main__":
             print()
 
             dates = get_date_new(APPOINTMENT_URL)[:5]
-            # if not dates:
-            #   msg = "List is empty"
-            #   send_notification(msg)
-            #   EXIT = True
+
             print_dates(dates)
             date = get_available_date(dates)
             print()
